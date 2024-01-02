@@ -1,8 +1,10 @@
 # Unity Xcode Project Settings
 Advanced Xcode project settings available in the Project Settings panel.
 
-## Installation
+## NOTICE
+This package is not considered production-ready.  Breaking changes are common and support is limited.  Use at your own risk.
 
+## Installation
 **Recommended Installation** (Unity Package Manager)
 - "Add package from git URL..."
 - `https://github.com/ryanslikesocool/UnityXcodeProjectSettings.git`
