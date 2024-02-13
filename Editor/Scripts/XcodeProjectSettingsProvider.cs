@@ -1,18 +1,10 @@
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace XcodeProjectSettings {
 	internal sealed class XcodeProjectSettingsProvider : SettingsProvider {
-		private SerializedObject xcodeSettings;
-
-		private sealed class Styles {
-			public static readonly GUIContent enableBitcode = new GUIContent("Enable Bitcode");
-
-			public static readonly GUIContent displayName = new GUIContent("Display Name", "CFBundleDisplayName");
-			public static readonly GUIContent disableMinimumFramerate = new GUIContent("Disable Minimum Framerate", "CADisableMinimumFrameDurationOnPhone");
-			public static readonly GUIContent appUsesNonExemptEncryption = new GUIContent("App Uses Non-Exempt Encryption", "ITSAppUsesNonExemptEncryption");
-		}
+		private SerializedObject projectSettings;
+		private Editor projectSettingsEditor;
 
 		public XcodeProjectSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
 
@@ -20,25 +12,23 @@ namespace XcodeProjectSettings {
 			=> XcodeProjectSettings.DoesSettingsExists();
 
 		public override void OnActivate(string searchContext, VisualElement rootElement) {
-			xcodeSettings = XcodeProjectSettings.GetSerializedSettings();
+			projectSettings = XcodeProjectSettings.GetSerializedSettings();
+			projectSettingsEditor = Editor.CreateEditor(projectSettings.targetObject);
 		}
+
+		// MARK: - Draw
 
 		public override void OnGUI(string searchContext) {
-			EditorGUILayout.PropertyField(xcodeSettings.FindProperty("enableBitcode"), Styles.enableBitcode);
-
-			EditorGUILayout.Separator();
-			EditorGUILayout.LabelField("Info.plist", EditorStyles.boldLabel);
-			EditorGUILayout.PropertyField(xcodeSettings.FindProperty("displayName"), Styles.displayName);
-			EditorGUILayout.PropertyField(xcodeSettings.FindProperty("disableMinimumFramerate"), Styles.disableMinimumFramerate);
-			EditorGUILayout.PropertyField(xcodeSettings.FindProperty("appUsesNonExemptEncryption"), Styles.appUsesNonExemptEncryption);
-
-			xcodeSettings.ApplyModifiedPropertiesWithoutUndo();
+			projectSettingsEditor.OnInspectorGUI();
+			projectSettings.ApplyModifiedPropertiesWithoutUndo();
 		}
+
+		// MARK: -
 
 		[SettingsProvider]
 		public static SettingsProvider CreateXcodeProjectSettingsProvider() {
 			XcodeProjectSettingsProvider provider = new XcodeProjectSettingsProvider("Project/Xcode Project Settings", SettingsScope.Project);
-			provider.keywords = GetSearchKeywordsFromGUIContentProperties<Styles>();
+			provider.keywords = GetSearchKeywordsFromGUIContentProperties<XcodeProjectSettingsEditor.Styles>();
 			return provider;
 		}
 	}

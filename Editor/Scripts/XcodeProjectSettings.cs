@@ -1,3 +1,4 @@
+using Foundation;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,9 +9,11 @@ namespace XcodeProjectSettings {
 #pragma warning disable 0414
 		[SerializeField] internal bool enableBitcode;
 
-		[SerializeField] internal string displayName;
-		[SerializeField] internal bool disableMinimumFramerate;
-		[SerializeField] internal bool appUsesNonExemptEncryption;
+		[SerializeField] internal OptionalReference<string> displayName;
+		[SerializeField] internal OptionalReference<string> accessibilityBundleName;
+		[SerializeField] internal Optional<bool> disableMinimumFramerate;
+		[SerializeField] internal Optional<bool> appUsesNonExemptEncryption;
+		[SerializeField] internal Optional<bool> applicationRequiresIPhoneEnvironment;
 #pragma warning restore 0414
 
 		// MARK: - Constants
@@ -25,9 +28,11 @@ namespace XcodeProjectSettings {
 				settings = CreateInstance<XcodeProjectSettings>();
 
 				settings.enableBitcode = false;
-				settings.displayName = string.Empty;
-				settings.disableMinimumFramerate = false;
-				settings.appUsesNonExemptEncryption = true;
+				settings.displayName = default;
+				settings.disableMinimumFramerate = default;
+				settings.appUsesNonExemptEncryption = default;
+				settings.applicationRequiresIPhoneEnvironment = default;
+				settings.accessibilityBundleName = default;
 
 				AssetDatabase.CreateAsset(settings, DEFAULT_SETTINGS_PATH);
 				AssetDatabase.SaveAssets();
