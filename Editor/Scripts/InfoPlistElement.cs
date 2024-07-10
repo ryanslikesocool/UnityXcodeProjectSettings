@@ -1,3 +1,5 @@
+// Developed With Love by Ryan Boyer https://ryanjboyer.com <3
+
 using UnityEngine;
 using System.Linq;
 using System;
@@ -53,8 +55,8 @@ namespace XcodeProjectSettings {
 				propertyName: "disableMinimumFramerate",
 				dictionaryKey: "CADisableMinimumFrameDurationOnPhone",
 				title: "Disable Minimum Framerate",
-				tooltip: null,
-				helpURL: null
+				tooltip: "Enable the full range of refresh rates on ProMotion displays.",
+				helpURL: "https://developer.apple.com/documentation/quartzcore/optimizing_promotion_refresh_rates_for_iphone_13_pro_and_ipad_pro"
 			),
 			new InfoPlistElement(
 				propertyName: "appUsesNonExemptEncryption",

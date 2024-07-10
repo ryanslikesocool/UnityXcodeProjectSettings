@@ -2,7 +2,8 @@
     "name": "XcodeProjectSettings",
     "rootNamespace": "XcodeProjectSettings",
     "references": [
-        "GUID:2cd2cdb849e5843968eecb24fc174e16"
+        "GUID:2cd2cdb849e5843968eecb24fc174e16",
+        "GUID:2305d81fae9c94c1294cc7e76272c158"
     ],
     "includePlatforms": [
         "Editor"
