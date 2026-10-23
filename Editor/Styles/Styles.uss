@@ -1,0 +1,19 @@
+.list-row {
+	flex-direction: row;
+}
+
+.help-icon {
+	background-color: rgba(0,0,0,0);
+	border-top-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	border-left-width: 0;
+}
+
+.light :hover {
+	background-color: #B2B2B2;
+}
+
+.dark :hover {
+	background-color: #303030;
+}

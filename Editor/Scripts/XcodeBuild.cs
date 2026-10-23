@@ -56,7 +56,7 @@ namespace XcodeProjectSettings {
 
 			string projectPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
 
-			PBXProject pbxProject = new PBXProject();
+			PBXProject pbxProject = new();
 			pbxProject.ReadFromFile(projectPath);
 
 			//Disabling Bitcode on all targets

@@ -9,6 +9,10 @@ namespace XcodeProjectSettings {
 
 		[SerializeField] internal OptionalReference<string> displayName = default;
 		[SerializeField] internal OptionalReference<string> accessibilityBundleName = default;
+
+		[SerializeField] internal OptionalReference<string> bundleVersion = default;
+		[SerializeField] internal OptionalReference<string> bundleVersionShort = default;
+
 		[SerializeField] internal Optional<bool> disableMinimumFramerate = default;
 		[SerializeField] internal Optional<bool> appUsesNonExemptEncryption = default;
 		[SerializeField] internal Optional<bool> applicationRequiresIPhoneEnvironment = default;

@@ -1,8 +1,9 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-using UnityEngine;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace XcodeProjectSettings {
 	internal readonly struct InfoPlistElement {
@@ -36,7 +37,7 @@ namespace XcodeProjectSettings {
 			helpURL: helpURL
 		) { }
 
-		public static readonly InfoPlistElement[] Common = new InfoPlistElement[] {
+		public static readonly InfoPlistElement[] BundleName = new InfoPlistElement[] {
 			new InfoPlistElement(
 				propertyName: "displayName",
 				dictionaryKey: "CFBundleDisplayName",
@@ -51,6 +52,26 @@ namespace XcodeProjectSettings {
 				tooltip: "A replacement for the app name in text-to-speech operations.",
 				helpURL: "https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundlespokenname"
 			),
+		};
+
+		public static readonly InfoPlistElement[] Versioning = new InfoPlistElement[] {
+			new InfoPlistElement(
+				propertyName: "bundleVersion",
+				dictionaryKey: "CFBundleVersion",
+				title: "Bundle Version",
+				tooltip: "",
+				helpURL: "https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion"
+			),
+			new InfoPlistElement(
+				propertyName: "bundleVersionShort",
+				dictionaryKey: "CFBundleShortVersionString",
+				title: "Bundle Version (Short)",
+				tooltip: "",
+				helpURL: "https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleshortversionstring"
+			)
+		};
+
+		public static readonly InfoPlistElement[] Common = new InfoPlistElement[] {
 			new InfoPlistElement(
 				propertyName: "disableMinimumFramerate",
 				dictionaryKey: "CADisableMinimumFrameDurationOnPhone",
@@ -71,18 +92,41 @@ namespace XcodeProjectSettings {
 				title: "Application requires iPhone environment",
 				tooltip: "A Boolean value indicating whether the app must run in iOS.",
 				helpURL: "https://developer.apple.com/documentation/bundleresources/information_property_list/lsrequiresiphoneos"
-			)
+			),
 		};
+
+		//private static readonly InfoPlistElement[][] PresetCategories = new InfoPlistElement[][] {
+		//	BundleName,
+		//	Versioning,
+		//	Common,
+		//};
 
 		public enum SearchMode {
 			PropertyName,
-			DictionaryKey
+			DictionaryKey,
 		}
 
-		public static InfoPlistElement SearchCommon(string query, SearchMode searchMode = SearchMode.PropertyName) => searchMode switch {
-			SearchMode.PropertyName => Common.First(e => e.propertyName == query),
-			SearchMode.DictionaryKey => Common.First(e => e.dictionaryKey == query),
+		public static InfoPlistElement SearchCategory(IEnumerable<InfoPlistElement> collection, string query, SearchMode searchMode = SearchMode.PropertyName) => searchMode switch {
+			SearchMode.PropertyName => collection.First(e => e.propertyName == query),
+			SearchMode.DictionaryKey => collection.First(e => e.dictionaryKey == query),
 			_ => throw new ArgumentException()
 		};
+
+		public static InfoPlistElement SearchPresets(string query, SearchMode searchMode = SearchMode.PropertyName) {
+			// this doesn't like being in the global scope for whatever reason...
+			InfoPlistElement[][] presetCategories = new InfoPlistElement[][] {
+				BundleName,
+				Versioning,
+				Common,
+			};
+
+			foreach (InfoPlistElement[] category in presetCategories) {
+				InfoPlistElement categorySearchResult = SearchCategory(category, query, searchMode);
+				if (!categorySearchResult.Equals(default(InfoPlistElement))) {
+					return categorySearchResult;
+				}
+			}
+			return default;
+		}
 	}
 }

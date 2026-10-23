@@ -1,6 +1,6 @@
 // Developed With Love by Ryan Boyer https://ryanjboyer.com <3
 
-using Foundation.Editors;
+using Foundation.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -43,9 +43,8 @@ namespace XcodeProjectSettings {
 			return settings;
 		}
 
-		private static SerializedObject GetSerializedSettings() {
-			return new SerializedObject(GetOrCreateSettings());
-		}
+		private static SerializedObject GetSerializedSettings()
+			=> new(GetOrCreateSettings());
 
 		private static ProjectSettings LoadExistingSettings() {
 			string[] guids = AssetDatabase.FindAssets($"t:{typeof(ProjectSettings)}");
